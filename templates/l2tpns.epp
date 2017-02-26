@@ -1,0 +1,77 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:    l2tpns1
+# Required-Start: $network
+# Required-Stop:  
+# Default-Start:  2 3 5
+# Default-Stop:   0 1 6
+# Description:    Start l2tpns.
+### END INIT INFO
+
+# pidfile: /var/run/l2tpns.pid
+# config: /etc/l2tpns
+
+# Path to the server binary, and short-form for messages.
+L2TPNS=/usr/sbin/l2tpns
+. /etc/init.d/functions
+
+start() {
+	/sbin/sysctl -p &> /dev/null
+	sleep 1
+	pid=`ps aux | grep $L2TPNS | grep '<%= $l2tpns::config_file %>' | grep -v grep | awk '{print $2}'`
+        if checkpid $pid; then
+                echo "l2tpns is running."
+                exit 0
+	fi
+        echo -n "Starting l2tpns:"
+	daemon $L2TPNS -d -p <%= $l2tpns::telnet_port %> -c <%= $l2tpns::config_file %>
+	[ $? -eq 0 ] && success; echo || failure; echo;
+	pid=`ps aux | grep $L2TPNS | grep '<%= $l2tpns::config_file %>' | grep -v grep | awk '{print $2}'`
+        <% if $l2tpns::core_id {-%>
+	taskset -pc <%= $l2tpns::core_id %> $pid
+        <% } %>
+	touch <%= $l2tpns::subsys_file %>
+	sleep 0
+}
+stop() {
+	echo -n "Shutting down l2tpns:"
+	#killproc $L2TPNS
+	pid=`ps aux | grep $L2TPNS |  grep '<%= $l2tpns::config_file %>' |grep -v grep | awk '{print $2}'`
+	/bin/kill -s SIGQUIT $pid
+	[ $? -eq 0 ] && success; echo || failure; echo;
+	rm -f <%= $l2tpns::subsys_file %>
+}
+status() {
+	echo -n "Checking for service l2tpns:"
+	pid=`ps aux | grep $L2TPNS | grep '<%= $l2tpns::config_file %>' | grep -v grep | awk '{print $2}'`
+	if checkpid $pid; then
+		echo "l2tpns is running."
+    		exit 0
+	else
+		echo "l2tpns not running."
+		exit 1
+	fi
+}
+
+# See how we were called.
+case "$1" in
+  start)
+	start
+	;;
+  stop)
+	stop
+	;;
+  status)
+        status
+	;;
+  restart)
+	stop
+	sleep 5
+	start
+	;;
+  *)
+	echo $"Usage: $prog {start|stop|restart|reload|status}"
+	exit 1
+esac
+exit $?

@@ -1,0 +1,6 @@
+---
+l2tpns::config_file: '/etc/l2tpns/startup-config'
+l2tpns::log_file: '/var/log/l2tpns.log'
+l2tpns::init_script_file: '/etc/init.d/l2tpns'
+l2tpns::pid_file: '/var/run/l2tpns.pid'
+l2tpns::subsys_file: '/var/lock/subsys/l2tpns'

@@ -1,0 +1,23 @@
+{
+  "name": "wroujoulah-l2tpns",
+  "version": "0.1.0",
+  "author": "mhd wissam alroujoulah",
+  "summary": "Puppet module for l2tpns",
+  "license": "Apache-2.0",
+  "source": "https://github.com/wissam-r/puppet-l2tpns",
+  "project_page": "https://github.com/wissam-r/puppet-l2tpns",
+  "issues_url": null,
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 4.13.1"}
+  ],
+  "data_provider": "hiera",
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "6"
+      ]
+    }
+  ]
+}
+
