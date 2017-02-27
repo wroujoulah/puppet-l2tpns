@@ -24,9 +24,9 @@ L2tpns and libcli packages are not in common repositories so You must have a loc
 
 `include '::l2tpns'` is enough to get you up and running. To pass in parameters specifying which servers to use:
 
-class { '::l2tpns':
-  l2tp_port => 1701,
-}
+	class { '::l2tpns':
+  	  l2tp_port => 1701,
+	}
 
 ## Usage
 
@@ -44,13 +44,13 @@ All parameters for the l2tpns module are contained within the main ::l2tpns clas
 	}
 
 #### Setting the primary radius ipaddress, port and secret key
-
-        class { '::l2tpns':
+	
+	class { '::l2tpns':
 	  primary_radius      => 127.0.0.1,
 	  primary_radius_port => 1812,
-	  radius_secret       => "secret",
-	  
-        }
+	  radius_secret       => "secret",  
+	}
+
 #### Setting the authentications types
 
         class { '::l2tpns':
