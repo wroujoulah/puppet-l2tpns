@@ -146,7 +146,6 @@ set nsctl_port <%= $l2tpns::nsctl_port %>
 set radius_interim <%= $l2tpns::radius_interim %>
 set radius_nas_offset <%= $l2tpns::radius_nas_offset %>
 set handle_out_of_seq <%= $l2tpns::handle_out_of_seq %>
-set allow_duplicate_users <%= $l2tpns::allow_duplicate_users %>
 set kill_timedout_sessions <%= $l2tpns::kill_timedout_sessions %>
 set account_all_origin <%= $l2tpns::account_all_origin %>
 set auth_tunnel_change_addr_src <%= $l2tpns::auth_tunnel_change_addr_src %>

@@ -91,13 +91,18 @@ class l2tpns (
   Integer[0, 65535] $throttle_speed,
   Optional[String] $tundevicename,
   Array[String] $load_plugins,
+  Optional[Hash] $repo,
+  String $handle_out_of_seq,
 ) {
-
+  contain l2tpns::repo
   contain l2tpns::install
+  contain l2tpns::init_script
   contain l2tpns::config
   contain l2tpns::service
 
-  Class['::l2tpns::install'] ->
-  Class['::l2tpns::config'] ~>
+  Class['::l2tpns::repo']        ->
+  Class['::l2tpns::install']     ->
+  Class['::l2tpns::init_script'] ->
+  Class['::l2tpns::config']      ~>
   Class['::l2tpns::service'] 
 }

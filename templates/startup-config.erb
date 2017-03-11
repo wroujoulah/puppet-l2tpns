@@ -1,0 +1,187 @@
+#This File has been created with puppet
+
+# Debugging level
+set debug "<%= @debug %>"
+
+# Log file: comment out to use stderr, use "syslog:facility" for syslog
+set log_file "<%= @log_file %>"
+
+# Write pid to this file
+set pid_file "<%= @pid_file %>"
+
+# This host name, if @different from the OS one
+<% if @hostname -%>
+set hostname "<%= @hostname %>"
+<% end %>
+
+# Shared secret with LAC
+set l2tp_secret "<%= @l2tp_secret %>"
+
+# MTU of interface for L2TP traffic
+set l2tp_mtu <%= @l2tp_mtu %>
+
+# PPP counter and timer values
+set ppp_restart_time <%= @ppp_restart_time %>
+set ppp_max_configure <%= @ppp_max_configure %>
+set ppp_max_failure <%= @ppp_max_failure %>
+
+# Only 2 DNS server entries are allowed
+set primary_dns <%= @primary_dns %>
+set secondary_dns <%= @secondary_dns %>
+
+# Can have multiple radius server entries, but ony one radius secret
+set primary_radius <%= @primary_radius %>
+set primary_radius_port <%= @primary_radius_port %>
+set secondary_radius <%= @secondary_radius %>
+set secondary_radius_port <%= @secondary_radius_port %>
+set radius_secret "<%= @radius_secret %>"
+
+# Acceptable authentication types (pap, chap) in order of preference
+set radius_authtypes "<%= @radius_authtypes %>"
+
+# Turn on or off Radius Accounting
+set radius_accounting "<%= @radius_accounting %>"
+
+# Port for DAE RADIUS requests
+set radius_dae_port "<%= @radius_dae_port %>"
+
+# Allow multiple logins for the same username
+set allow_duplicate_users <%= @allow_duplicate_users %>
+
+# Kill timedout sessions ? (default yes)
+set kill_timedout_sessions <%= @kill_timedout_sessions %> 
+
+# Allow multiple logins for specific username
+<% if @guest_account -%>
+set guest_account "<%= @guest_account %>"
+<% end %>
+
+# Write usage accounting files into specified directory
+<% if @accounting_dir -%>
+set accounting_dir "<%= @accounting_dir %>"
+<% end -%>
+
+# Listen address for L2TP
+set bind_address <%= @bind_address %>
+
+# Listen address for CLI
+set cli_bind_address <%= @cli_bind_address %>
+
+# Send a gratiuitous ARP for bind address
+set send_garp <%= @send_garp %>
+
+# Gateway address given to clients
+set peer_address <%= @peer_address %>
+
+# Default throttle rate in kb/s
+set throttle_speed <%= @throttle_speed %>
+
+# Number of buckets to allocate for throttling
+set throttle_buckets <%= @throttle_buckets %>
+
+# If set to true, dump current speed to stderr every second
+set dump_speed <%= @dump_speed %>
+
+# Number of packets to read from tun/udp/cluster fd when select
+# returns readable
+set multi_read_count <%= @multi_read_count %>
+
+# Set scheduling priority of process to SCHED_FIFO
+set scheduler_fifo <%= @scheduler_fifo %>
+
+# Lock pages into memory
+set lock_pages <%= @lock_pages %>
+
+# Maximum number of host unreachable packets to send per second
+set icmp_rate <%= @icmp_rate %>
+
+# Maximum number of downstream packets per 0.1s to handle for each
+# session (0 = ulimited)
+set packet_limit <%= @packet_limit %>
+
+# Cluster multicast address, interface
+<% if @cluster_address -%>
+set cluster_address <%= @cluster_address %>
+<% end %>
+<% if @cluster_interface -%>
+set cluster_interface <%= @cluster_interface %>
+<% end %>
+
+# Cluster multicast TTL
+set cluster_mcast_ttl <%= @cluster_mcast_ttl %>
+
+# Cluster timers (1/10th second)
+set cluster_hb_interval <%= @cluster_hb_interval %>
+set cluster_hb_timeout <%= @cluster_hb_timeout %>
+
+# Minimum number of slaves before master withdraws routes
+set cluster_master_min_adv <%= @cluster_master_min_adv %>
+
+# IPv6 address prefix
+set ipv6_prefix <%= @ipv6_prefix %>
+
+# BGP NEXT_HOP path attribute
+set nexthop <%= @nexthop_address %>
+set nexthop6 <%= @nexthop6_address %>
+
+# Time between last packet sent and LCP ECHO generation (default 10 seconds)
+set echo_timeout <%= @echo_timeout %>
+# Drop sessions who have not responded within idle_echo_timeout seconds (default 240 seconds)
+set idle_echo_timeout <%= @idle_echo_timeout %>
+# Change this value to no to force generation of LCP ECHO every echo_timeout seconds, even there are activity on the link (default yes)
+set ppp_keepalive <%= @ppp_keepalive %>
+
+# Drop/kill sessions
+# Throttle/snoop based on RADIUS
+# Control throttle/snoop with nsctl
+# Punt RX speed if not supplied
+# Remove domain from username
+# Walled garden
+<% @load_plugins.each do |plugin| -%>
+load plugin "<%= plugin %>"
+<% end -%>
+
+set l2tp_port <%= @l2tp_port %>
+set nsctl_port <%= @nsctl_port %>
+set radius_interim <%= @radius_interim %>
+set radius_nas_offset <%= @radius_nas_offset %>
+set handle_out_of_seq <%= @handle_out_of_seq %>
+set allow_duplicate_users <%= @allow_duplicate_users %>
+set kill_timedout_sessions <%= @kill_timedout_sessions %>
+set account_all_origin <%= @account_all_origin %>
+set auth_tunnel_change_addr_src <%= @auth_tunnel_change_addr_src %>
+set bind_address_remotelns <%= @bind_address_remotelns %>
+set bind_multi_address <%= @bind_multi_address %>
+set bind_portremotelns <%= @bind_portremotelns %>
+<% if @default_ipv6_domain_list -%>
+set default_ipv6_domain_list <%= @default_ipv6_domain_list %>
+<% end %>
+
+<% if @default_ipv6_domain_list -%>
+set default_ipv6_domain_list <%= @default_ipv6_domain_list %>
+<% end %>
+set dhcp6_preferred_lifetime <%= @dhcp6_preferred_lifetime %>
+set dhcp6_server_duid <%= @dhcp6_server_duid %>
+set dhcp6_valid_lifetime <%= @dhcp6_valid_lifetime %>
+
+set disable_lac_func <%= @disable_lac_func %>
+set disable_no_spoof <%= @disable_no_spoof %>
+set disable_sending_hello <%= @disable_sending_hello %>
+set dns6_lifetime <%= @dns6_lifetime %>
+<% if @multi_hostname -%>
+set multi_hostname <%= @multi_hostname %>
+<% end %>
+set no_throttle_local_IP <%= @no_throttle_local_IP %>
+set pppoe_ac_name <%= @pppoe_ac_name %>
+set pppoe_if_to_bind <%= @pppoe_if_to_bind %>
+set pppoe_only_equal_svc_name <%= @pppoe_only_equal_svc_name %>
+set pppoe_service_name <%= @pppoe_service_name %>
+set primary_ipv6_dns <%= @primary_ipv6_dns %>
+set radius_bind_max <%= @radius_bind_max %>
+set radius_bind_min <%= @radius_bind_min %>
+set random_device <%= @random_device %>
+set secondary_ipv6_dns <%= @secondary_ipv6_dns %>
+
+<% if @tundevicename -%>
+set tundevicename <%= @tundevicename %>
+<% end %>

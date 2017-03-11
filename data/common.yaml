@@ -42,6 +42,7 @@ l2tpns::l2tp_port: 1701
 l2tpns::l2tp_secret: 'secret'
 l2tpns::load_plugins: [ 'sessionctl', 'autothrottle', 'throttlectl' ]
 l2tpns::lock_pages: 'no'
+l2tpns::multiservice: 'no'
 l2tpns::multi_hostname: ""
 l2tpns::multi_read_count: 1572840
 l2tpns::nexthop6_address: '::'
@@ -89,3 +90,83 @@ l2tpns::telnet_port: 23
 l2tpns::throttle_buckets: 120000
 l2tpns::throttle_speed: 0
 l2tpns::tundevicename: ~
+
+
+
+l2tpns::custom::config::account_all_origin: 'no'
+l2tpns::custom::config::accounting_dir: ""
+l2tpns::custom::config::allow_duplicate_users: 'no'
+l2tpns::custom::config::auth_tunnel_change_addr_src: 'no'
+l2tpns::custom::config::available_plugins : [ 'sessionctl', 'autothrottle', 'throttlectl', 'autosnoop', 'snoopctl', 'setrxspeed', 'stripdomain', 'garden' ]
+l2tpns::custom::config::bind_address: '127.0.0.1'
+l2tpns::custom::config::bind_address_remotelns: '0.0.0.0'
+l2tpns::custom::config::bind_multi_address: ""
+l2tpns::custom::config::bind_portremotelns: 65432
+l2tpns::custom::config::cli_bind_address: '0.0.0.0'
+l2tpns::custom::config::cluster_address: ~
+l2tpns::custom::config::cluster_hb_interval: 5
+l2tpns::custom::config::cluster_hb_timeout: 150
+l2tpns::custom::config::cluster_interface: ~
+l2tpns::custom::config::cluster_master_min_adv: 1
+l2tpns::custom::config::cluster_mcast_ttl: 1
+l2tpns::custom::config::config_file_template: 'l2tpns/startup-config_custom.epp'
+l2tpns::custom::config::debug: 0
+l2tpns::custom::config::default_ipv6_domain_list: ~
+l2tpns::custom::config::dhcp6_preferred_lifetime: 0
+l2tpns::custom::config::dhcp6_server_duid: 0
+l2tpns::custom::config::dhcp6_valid_lifetime: 0
+l2tpns::custom::config::disable_lac_func: 'no'
+l2tpns::custom::config::disable_no_spoof: 'no'
+l2tpns::custom::config::disable_sending_hello: 'no'
+l2tpns::custom::config::dns6_lifetime: 1200
+l2tpns::custom::config::dump_speed: 'no'
+l2tpns::custom::config::echo_timeout: 10
+l2tpns::custom::config::guest_account: ~
+l2tpns::custom::config::handle_out_of_seq: 'yes'
+l2tpns::custom::config::hostname: ~
+l2tpns::custom::config::icmp_rate: 0
+l2tpns::custom::config::idle_echo_timeout: 240
+l2tpns::custom::config::iftun_address: '0.0.0.0'
+l2tpns::custom::config::init_script_template: 'l2tpns/l2tpns.epp'
+l2tpns::custom::config::ipv6_prefix: '::'
+l2tpns::custom::config::kill_timedout_sessions: 'yes'
+l2tpns::custom::config::l2tp_mtu: 1500
+l2tpns::custom::config::l2tp_secret: 'secret'
+l2tpns::custom::config::load_plugins: [ 'sessionctl', 'autothrottle', 'throttlectl' ]
+l2tpns::custom::config::lock_pages: 'no'
+l2tpns::custom::config::multi_hostname: ""
+l2tpns::custom::config::multi_read_count: 1572840
+l2tpns::custom::config::nexthop6_address: '::'
+l2tpns::custom::config::nexthop_address: '0.0.0.0'
+l2tpns::custom::config::no_throttle_local_IP: 'no'
+l2tpns::custom::config::packet_limit: 0
+l2tpns::custom::config::peer_address: '127.0.0.1'
+l2tpns::custom::config::ppp_keepalive: 'yes'
+l2tpns::custom::config::ppp_max_configure: 10
+l2tpns::custom::config::ppp_max_failure: 5
+l2tpns::custom::config::pppoe_ac_name: "l2tpns-pppoe"
+l2tpns::custom::config::pppoe_if_to_bind: ""
+l2tpns::custom::config::pppoe_only_equal_svc_name: 'no'
+l2tpns::custom::config::pppoe_service_name: ""
+l2tpns::custom::config::ppp_restart_time: 3
+l2tpns::custom::config::primary_dns: '127.0.0.1'
+l2tpns::custom::config::primary_ipv6_dns: '::'
+l2tpns::custom::config::primary_radius: '127.0.0.1'
+l2tpns::custom::config::primary_radius_port: 1812
+l2tpns::custom::config::radius_accounting: 'yes'
+l2tpns::custom::config::radius_authtypes: "pap, chap"
+l2tpns::custom::config::radius_bind_max: 0
+l2tpns::custom::config::radius_bind_min: 0
+l2tpns::custom::config::radius_dae_port: 3799
+l2tpns::custom::config::radius_interim: 900
+l2tpns::custom::config::radius_secret: 'secret'
+l2tpns::custom::config::random_device: "/dev/urandom"
+l2tpns::custom::config::scheduler_fifo: 'yes'
+l2tpns::custom::config::secondary_dns: '0.0.0.0'
+l2tpns::custom::config::secondary_ipv6_dns: '::'
+l2tpns::custom::config::secondary_radius: '0.0.0.0'
+l2tpns::custom::config::secondary_radius_port: 0
+l2tpns::custom::config::send_garp: 'yes'
+l2tpns::custom::config::throttle_buckets: 120000
+l2tpns::custom::config::throttle_speed: 0
+l2tpns::custom::config::tundevicename: ~

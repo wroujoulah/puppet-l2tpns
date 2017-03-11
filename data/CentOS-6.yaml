@@ -1,6 +1,13 @@
 ---
+l2tpns::repo:
+  descr   : 'L2tpns RedHat repo'
+  baseurl : 'http://192.168.10.216/RedHat'
+  enabled : '1'
+  gpgcheck: '0'
+
 l2tpns::config_file: '/etc/l2tpns/startup-config'
 l2tpns::log_file: '/var/log/l2tpns.log'
 l2tpns::init_script_file: '/etc/init.d/l2tpns'
 l2tpns::pid_file: '/var/run/l2tpns.pid'
 l2tpns::subsys_file: '/var/lock/subsys/l2tpns'
+
