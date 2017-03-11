@@ -16,7 +16,7 @@ This is a Puppet module that manage the installation and the configuration of th
 
 ## Setup
 
-### Setup Requirements **OPTIONAL**
+### Setup Requirements
 
 L2tpns and libcli packages are not in common repositories so You must have a local repository that contain the require l2tpns version and the libcli library.
 
@@ -24,34 +24,34 @@ L2tpns and libcli packages are not in common repositories so You must have a loc
 
 `include '::l2tpns'` is enough to get you up and running. To pass in parameters specifying which servers to use:
 
-class { '::l2tpns':
-  l2tp_port => 1701,
-}
+	class { '::l2tpns':
+  	  l2tp_port => 1701,
+	}
 
 ## Usage
 
 All parameters for the l2tpns module are contained within the main ::l2tpns class, so for any function of the module, set the options you want. See the common usages below for examples.
 
-install and enable L2tpns
+#### install and enable L2tpns
 
 	include '::l2tpns'
 
-Change the l2tp and the nsctl port
+#### Change the l2tp and the nsctl port
 
 	class { '::l2tpns':
 	  l2tp_port  => 1800,
 	  nsctl_port => 1802,
 	}
 
-Setting the primary radius ipaddress, port and secret key
-
-        class { '::l2tpns':
+#### Setting the primary radius ipaddress, port and secret key
+	
+	class { '::l2tpns':
 	  primary_radius      => 127.0.0.1,
 	  primary_radius_port => 1812,
-	  radius_secret       => "secret",
-	  
-        }
-Setting the authentications types
+	  radius_secret       => "secret",  
+	}
+
+#### Setting the authentications types
 
         class { '::l2tpns':
           radius_authtypes => "pap, chap",
@@ -75,177 +75,177 @@ Setting the authentications types
 
 The following parameters are available in the `::l2tpns` class:
 
-`debug` (int)
+##### `debug` (int)
 
-    Sets the level of messages that will be written to the log file. The value should be between 0 and 5, with 0 being no debugging, and 5 being the highest. A rough description of the levels is:
+Sets the level of messages that will be written to the log file. The value should be between 0 and 5, with 0 being no debugging, and 5 being the highest. A rough description of the levels is:
 
-    0: Critical Errors
+0: Critical Errors
+Things are probably broken
+    
+1: Errors
+Things might have gone wrong, but probably will recover
 
-        Things are probably broken
-    1: Errors
+2: Warnings
+Just in case you care what is not quite perfect 
 
-        Things might have gone wrong, but probably will recover 
-    2: Warnings
+3: Information
+Parameters of control packets
 
-        Just in case you care what is not quite perfect 
-    3: Information
+4: Calls
+For tracing the execution of the code
 
-        Parameters of control packets
-    4: Calls
+5: Packets
+Everything, including a hex dump of all packets processed... probably twice 
 
-        For tracing the execution of the code
-    5: Packets
+Note that the higher you set the debugging level, the slower the program will run. Also, at level 5 a lot of information will be logged. This should only ever be used for working out why it doesn't work at all. 
 
-        Everything, including a hex dump of all packets processed... probably twice 
+##### `log_file` (string)
 
-    Note that the higher you set the debugging level, the slower the program will run. Also, at level 5 a lot of information will be logged. This should only ever be used for working out why it doesn't work at all. 
+This will be where all logging and debugging information is written to. This may be either a filename, such as /var/log/l2tpns, or the special magic string syslog:facility, where facility is any one of the syslog logging facilities, such as local5. 
 
-`log_file` (string)
+##### `pid_file` (string)
 
-    This will be where all logging and debugging information is written to. This may be either a filename, such as /var/log/l2tpns, or the special magic string syslog:facility, where facility is any one of the syslog logging facilities, such as local5. 
+If set, the process id will be written to the specified file. The value must be an absolute path. 
 
-`pid_file` (string)
+##### `random_device` (string)
 
-    If set, the process id will be written to the specified file. The value must be an absolute path. 
+Path to random data source (default /dev/urandom). Use "" to use the rand() library function. 
 
-`random_device` (string)
+##### `l2tp_secret` (string)
 
-    Path to random data source (default /dev/urandom). Use "" to use the rand() library function. 
+The secret used by l2tpns for authenticating tunnel request. Must be the same as the LAC, or authentication will fail. Only actually be used if the LAC requests authentication. 
 
-`l2tp_secret` (string)
+##### `l2tp_mtu` (int)
 
-    The secret used by l2tpns for authenticating tunnel request. Must be the same as the LAC, or authentication will fail. Only actually be used if the LAC requests authentication. 
+MTU of interface for L2TP traffic (default: 1500). Used to set link MRU and adjust TCP MSS. 
 
-`l2tp_mtu` (int)
+##### `ppp_restart_time` (int), `ppp_max_configure` (int), `ppp_max_failure` (int)
 
-    MTU of interface for L2TP traffic (default: 1500). Used to set link MRU and adjust TCP MSS. 
+PPP counter and timer values, as described in §4.1 of RFC1661. 
 
-`ppp_restart_time` (int), `ppp_max_configure` (int), `ppp_max_failure` (int)
+##### `primary_dns` (ip address), `secondary_dns` (ip address)
 
-    PPP counter and timer values, as described in §4.1 of RFC1661. 
+Whenever a PPP connection is established, DNS servers will be sent to the user, both a primary and a secondary. If either is set to 0.0.0.0, then that one will not be sent. 
 
-`primary_dns` (ip address), `secondary_dns` (ip address)
+##### `primary_radius` (ip address), `secondary_radius` (ip address)
 
-    Whenever a PPP connection is established, DNS servers will be sent to the user, both a primary and a secondary. If either is set to 0.0.0.0, then that one will not be sent. 
+Sets the RADIUS servers used for both authentication and accounting. If the primary server does not respond, then the secondary RADIUS server will be tried.
+Note:
+In addition to the source IP address and identifier, the RADIUS server must include the source port when detecting duplicates to supress (in order to cope with a large number of sessions comming on-line simultaneously l2tpns uses a set of udp sockets, each with a seperate identifier).
 
-`primary_radius` (ip address), `secondary_radius` (ip address)
+##### `primary_radius_port` (short), `secondary_radius_port` (short)
 
-    Sets the RADIUS servers used for both authentication and accounting. If the primary server does not respond, then the secondary RADIUS server will be tried.
-    Note
+Sets the authentication ports for the primary and secondary RADIUS servers. The accounting port is one more than the authentication port. If no RADIUS ports are given, the authentication port defaults to 1645, and the accounting port to 1646. 
 
-    In addition to the source IP address and identifier, the RADIUS server must include the source port when detecting duplicates to supress (in order to cope with a large number of sessions comming on-line simultaneously l2tpns uses a set of udp sockets, each with a seperate identifier).
+##### `radius_accounting` (boolean)
 
-`primary_radius_port` (short), `secondary_radius_port` (short)
+If set to true, then RADIUS accounting packets will be sent. This means that a Start record will be sent when the session is successfully authenticated, and a Stop record will be sent when the session is closed. 
 
-    Sets the authentication ports for the primary and secondary RADIUS servers. The accounting port is one more than the authentication port. If no RADIUS ports are given, the authentication port defaults to 1645, and the accounting port to 1646. 
+##### `radius_interim` (int)
 
-`radius_accounting` (boolean)
+If radius_accounting is on, defines the interval between sending of RADIUS interim accounting records (in seconds). 
 
-    If set to true, then RADIUS accounting packets will be sent. This means that a Start record will be sent when the session is successfully authenticated, and a Stop record will be sent when the session is closed. 
+##### `radius_secret` (string)
 
-`radius_interim` (int)
+This secret will be used in all RADIUS queries. If this is not set then RADIUS queries will fail. 
 
-    If radius_accounting is on, defines the interval between sending of RADIUS interim accounting records (in seconds). 
+##### `radius_authtypes` (string)
 
-`radius_secret` (string)
+A comma separated list of supported RADIUS authentication methods (pap or chap), in order of preference (default pap). 
 
-    This secret will be used in all RADIUS queries. If this is not set then RADIUS queries will fail. 
+##### `radius_bind_min` (short), `radius_bind_max` (short)
 
-`radius_authtypes` (string)
+Define a port range in which to bind sockets used to send and receive RADIUS packets. Must be at least RADIUS_FDS (64) wide. Simplifies firewalling of RADIUS ports (default: dynamically assigned). 
 
-    A comma separated list of supported RADIUS authentication methods (pap or chap), in order of preference (default pap). 
+##### `radius_dae_port` (short)
 
-`radius_bind_min` (short), `radius_bind_max` (short)
+Port for DAE RADIUS (Packet of Death/Disconnect, Change of Authorization) requests (default: 3799). 
 
-    Define a port range in which to bind sockets used to send and receive RADIUS packets. Must be at least RADIUS_FDS (64) wide. Simplifies firewalling of RADIUS ports (default: dynamically assigned). 
+##### `allow_duplicate_users` (boolean)
 
-`radius_dae_port` (short)
+Allow multiple logins with the same username. If false (the default), any prior session with the same username will be dropped when a new session is established. 
 
-    Port for DAE RADIUS (Packet of Death/Disconnect, Change of Authorization) requests (default: 3799). 
+##### `guest_account` (string)
 
-`allow_duplicate_users` (boolean)
+Allow multiple logins matching this specific username. 
 
-    Allow multiple logins with the same username. If false (the default), any prior session with the same username will be dropped when a new session is established. 
+##### `bind_address` (ip address)
 
-`guest_account` (string)
+When the tun interface is created, it is assigned the address specified here. If no address is given, 1.1.1.1 is used. Packets containing user traffic should be routed via this address if given, otherwise the primary address of the machine. 
 
-    Allow multiple logins matching this specific username. 
+##### `peer_address` (ip address)
 
-`bind_address` (ip address)
+Address to send to clients as the default gateway.
 
-    When the tun interface is created, it is assigned the address specified here. If no address is given, 1.1.1.1 is used. Packets containing user traffic should be routed via this address if given, otherwise the primary address of the machine. 
+##### `send_garp` (boolean)
 
-`peer_address` (ip address)
+Determines whether or not to send a gratuitous ARP for the bind_address when the server is ready to handle traffic (default: true). This value is ignored if BGP is configured. 
 
-    Address to send to clients as the default gateway.
+##### `throttle_speed` (int)
 
-`send_garp` (boolean)
+Sets the default speed (in kbits/s) which sessions will be limited to. If this is set to 0, then throttling will not be used at all. Note: You can set this by the CLI, but changes will not affect currently connected users. 
 
-    Determines whether or not to send a gratuitous ARP for the bind_address when the server is ready to handle traffic (default: true). This value is ignored if BGP is configured. 
+##### `throttle_buckets` (int)
 
-`throttle_speed` (int)
+Number of token buckets to allocate for throttling. Each throttled session requires two buckets (in and out). 
 
-    Sets the default speed (in kbits/s) which sessions will be limited to. If this is set to 0, then throttling will not be used at all. Note: You can set this by the CLI, but changes will not affect currently connected users. 
+##### `accounting_dir` (string)
 
-`throttle_buckets` (int)
+If set to a directory, then every 5 minutes the current usage for every connected use will be dumped to a file in this directory. Each file dumped begins with a header, where each line is prefixed by #. Following the header is a single line for every connected user, fields separated by a space.
 
-    Number of token buckets to allocate for throttling. Each throttled session requires two buckets (in and out). 
+The fields are username, ip, qos, uptxoctets, downrxoctets. The qos field is 1 if a standard user, and 2 if the user is throttled. 
 
-`accounting_dir` (string)
+##### `dump_speed` (boolean)
 
-    If set to a directory, then every 5 minutes the current usage for every connected use will be dumped to a file in this directory. Each file dumped begins with a header, where each line is prefixed by #. Following the header is a single line for every connected user, fields separated by a space.
+If set to true, then the current bandwidth utilization will be logged every second. Even if this is disabled, you can see this information by running the uptime command on the CLI. 
 
-    The fields are username, ip, qos, uptxoctets, downrxoctets. The qos field is 1 if a standard user, and 2 if the user is throttled. 
-dump_speed (boolean)
+##### `multi_read_count` (int)
 
-    If set to true, then the current bandwidth utilization will be logged every second. Even if this is disabled, you can see this information by running the uptime command on the CLI. 
+Number of packets to read off each of the UDP and TUN fds when returned as readable by select (default: 10). Avoids incurring the unnecessary system call overhead of select on busy servers. 
 
-`multi_read_count` (int)
+##### `scheduler_fifo` (boolean)
 
-    Number of packets to read off each of the UDP and TUN fds when returned as readable by select (default: 10). Avoids incurring the unnecessary system call overhead of select on busy servers. 
+Sets the scheduling policy for the l2tpns process to SCHED_FIFO. This causes the kernel to immediately preempt any currently running SCHED_OTHER (normal) process in favour of l2tpns when it becomes runnable. Ignored on uniprocessor systems. 
 
-`scheduler_fifo` (boolean)
+##### `lock_pages` (boolean)
 
-    Sets the scheduling policy for the l2tpns process to SCHED_FIFO. This causes the kernel to immediately preempt any currently running SCHED_OTHER (normal) process in favour of l2tpns when it becomes runnable. Ignored on uniprocessor systems. 
+Keep all pages mapped by the l2tpns process in memory. 
 
-`lock_pages` (boolean)
+##### `icmp_rate` (int)
 
-    Keep all pages mapped by the l2tpns process in memory. 
+Maximum number of host unreachable ICMP packets to send per second. 
 
-`icmp_rate` (int)
+##### `packet_limit` (int)
 
-    Maximum number of host unreachable ICMP packets to send per second. 
+Maximum number of packets of downstream traffic to be handled each tenth of a second per session. If zero, no limit is applied (default: 0). Intended as a DoS prevention mechanism and not a general throttling control (packets are dropped, not queued). 
 
-`packet_limit` (int)
+##### `cluster_address` (ip address)
 
-    Maximum number of packets of downstream traffic to be handled each tenth of a second per session. If zero, no limit is applied (default: 0). Intended as a DoS prevention mechanism and not a general throttling control (packets are dropped, not queued). 
+Multicast cluster address (default: 239.192.13.13). See the section called “Clustering” for more information. 
 
-`cluster_address` (ip address)
+##### `cluster_interface` (string)
 
-    Multicast cluster address (default: 239.192.13.13). See the section called “Clustering” for more information. 
+Interface for cluster packets (default: eth0)
 
-`cluster_interface` (string)
+##### `cluster_mcast_ttl` (int)
 
-    Interface for cluster packets (default: eth0)
+TTL for multicast packets (default: 1).
 
-`cluster_mcast_ttl` (int)
+##### `cluster_hb_interval` (int)
 
-    TTL for multicast packets (default: 1).
+Interval in tenths of a second between cluster heartbeat/pings. 
 
-`cluster_hb_interval` (int)
+##### `cluster_hb_timeout` (int)
 
-    Interval in tenths of a second between cluster heartbeat/pings. 
+Cluster heartbeat timeout in tenths of a second. A new master will be elected when this interval has been passed without seeing a heartbeat from the master. 
 
-`cluster_hb_timeout` (int)
+##### `cluster_master_min_adv` (int)
 
-    Cluster heartbeat timeout in tenths of a second. A new master will be elected when this interval has been passed without seeing a heartbeat from the master. 
+Determines the minumum number of up to date slaves required before the master will drop routes (default: 1). 
 
-`cluster_master_min_adv` (int)
+##### `ipv6_prefix` (ipv6 address)
 
-    Determines the minumum number of up to date slaves required before the master will drop routes (default: 1). 
-ipv6_prefix (ipv6 address)
-
-    Enable negotiation of IPv6. This forms the the first 64 bits of the client allocated address. The remaining 64 come from the allocated IPv4 address and 4 bytes of 0s. 
+Enable negotiation of IPv6. This forms the the first 64 bits of the client allocated address. The remaining 64 come from the allocated IPv4 address and 4 bytes of 0s. 
 
 
 ## Limitations
